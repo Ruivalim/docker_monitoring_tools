@@ -14,10 +14,6 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
       - --config.file=/etc/prometheus/prometheus.yml
-    expose:
-      - 9090
-    ports:
-      - 9090:9090
     links:
       - cadvisor:cadvisor
       - node-exporter:node-exporter
@@ -29,10 +25,6 @@ services:
     image: prom/node-exporter:latest
     container_name: monitoring_node_exporter
     restart: unless-stopped
-    ports:
-      - 9100:9100
-    expose:
-      - 9100
 
   cadvisor:
     image: gcr.io/google-containers/cadvisor:latest
@@ -43,8 +35,6 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-      - 8080:8080
 
   grafana:
     image: grafana/grafana:latest
@@ -57,7 +47,5 @@ services:
     environment:
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_DOMAIN=ruivalim.com.br
-    expose:
-      - 3000
     ports:
       - 9093:3000
